@@ -5,6 +5,7 @@
 #include <libnotify/notify.h>
 #include <libnotify/notification.h>
 
+#define ARRAYSIZE(x) (sizeof(x)/sizeof(*x))
 
 struct orig_fn_t
 {
@@ -12,21 +13,59 @@ struct orig_fn_t
     gboolean             (*update) (NotifyNotification *, const char *, const char *, const char *);
 } orig;
 
-char *translate_table = [["hoho", "hola vlad"],
-                         ["haha", "hola evita"],
-                         ["hehe", "hola peron"]];
+struct fake_notification
+{
+    const char *orig_summary;
+    const char *summary;
+    const char *body;
+    const char *icon;
+};
+
+struct fake_notification intercept_array[] =
+    {
+        {
+            .orig_summary = "hoho",
+            .summary      = "mensaje nuestro",
+            .icon         = "icono nuestro",
+        },
+        {
+            .orig_summary = "hehe",
+            .summary      = "Viva SLCFK",
+        },
+
+    };
+
+int hack_notification (const char **summary,
+                       const char **body,
+                       const char **icon)
+{
+    int i;
+
+    for (i = 0; i < ARRAYSIZE(intercept_array); i++)
+    {
+        if (! intercept_array[i].orig_summary)
+            break;
+
+        if (! strcmp (intercept_array[i].orig_summary, *summary)) {
+            *summary = intercept_array[i].summary;
+            if (! intercept_array[i].body)
+                *body = intercept_array[i].body;
+            if (! intercept_array[i].icon)
+                *icon = intercept_array[i].icon;
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 NotifyNotification * notify_notification_new            (const char *summary,
                                                          const char *body,
                                                          const char *icon)
 {
-    if (! strcmp (summary, "hoho")) 
-    {
-        summary = "hola vlad";
-    }
-
     printf ("hacked new:\n'%s',\n'%s',\n'%s'.\n",
             summary, body, icon);
+    hack_notification (&summary, &body, &icon);
     return orig.new (summary, body, icon);
 }
 
