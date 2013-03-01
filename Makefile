@@ -3,7 +3,7 @@
 CC=clang
 LD=ld
 PKGF = `pkg-config  --cflags libnotify`
-CFLAGS=-Wall -ggdb -O0 ${PKGF}
+CFLAGS=-Werror -Wall -ggdb -O0 ${PKGF}
 
 notify-hack.so: notify-hack.o
 	${LD} -shared -o notify-hack.so notihack.o -ldl

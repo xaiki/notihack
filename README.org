@@ -7,3 +7,7 @@ $ make
 
 LD_PRELOAD=./notify-hack.so notify-send 'hola'
 
+* Licencia
+  Este programa esta bajo licencia GPLv3+
+
+  mas detalles en COPYING
