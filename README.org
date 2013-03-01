@@ -1,0 +1,9 @@
+* Instalacion
+
+$ sudo aptitude install clang libnotify-dev
+$ make
+
+* Uso
+
+LD_PRELOAD=./notify-hack.so notify-send 'hola'
+
