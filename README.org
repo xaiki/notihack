@@ -1,7 +1,7 @@
 * Instalacion
 
-$ sudo aptitude install clang libnotify-dev
-$ make
++ $ sudo aptitude install clang libnotify-dev
++ $ make
 
 * Uso
 
