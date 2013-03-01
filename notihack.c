@@ -47,10 +47,11 @@ int hack_notification (const char **summary,
             break;
 
         if (! strcmp (intercept_array[i].orig_summary, *summary)) {
-            *summary = intercept_array[i].summary;
-            if (! intercept_array[i].body)
+            if (intercept_array[i].summary)
+                *summary = intercept_array[i].summary;
+            if (intercept_array[i].body)
                 *body = intercept_array[i].body;
-            if (! intercept_array[i].icon)
+            if (intercept_array[i].icon)
                 *icon = intercept_array[i].icon;
             return 1;
         }
